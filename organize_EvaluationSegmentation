@@ -1,0 +1,115 @@
+#!/bin/bash
+# Script to organize the output XML data from the quantitative segmentation metrics.
+
+usage(){
+  echo "  Script to organize the output XML data from the quantitative segmentation metrics."
+  echo "    Usage: $(basename $0) <List of files> [Output name file]"
+  echo ""
+  echo "    <List of files> = A single file that lists all the segmentation evaluations from the output of EvaluateSegmentation toolkit. The segmentation metrics can be chosen arbitrarily and the full path to each file must be informed."
+  echo "    [Output name file] = OPTIONAL: This is the output file name that will be saved the segmentation results. A CSV file should be useful. This file will be saved in the same directory of the listFilesList.txt file."
+  echo ""
+}
+if [[ $# -lt 1 ]]; then
+  usage
+  exit
+fi
+
+LISTFILES=$1
+OUTPUTNAME=$2
+
+# Reorganize the metric output tables
+echo " => Organizing segmentation evaluation..."
+if [[ $OUTPUTNAME == "" ]]; then
+  OUTPUTNAME=SegmentationOutput.csv
+fi
+printf "mask,DICE,JACRD,AUC,KAPPA,RNDIND,ADJRIND,ICCORR,VOLSMTY,MUTINF,MAHLNBS,AVGDIST,HDRFDST,VARINFO,GCOERR,PROBDST,SNSVTY,SPCFTY,PRCISON,FMEASR,ACURCY,FALLOUT,TP,FP,TN,FN,REFVOL,SEGVOL" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+printf "\n" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+
+for file in `cat ${LISTFILES}`; do
+  echo "Organizing output file: $file"
+  # File name
+  printf "$(basename ${file})" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #DICE
+  printf "`cat $file | grep DICE | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #JACRD
+  printf "`cat $file | grep JACRD | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #AUC
+  printf "`cat $file | grep AUC | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #KAPPA
+  printf "`cat $file | grep KAPPA | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #RNDIND
+  printf "`cat $file | grep RNDIND | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #ADJRIND
+  printf "`cat $file | grep ADJRIND | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #ICCORR
+  printf "`cat $file | grep ICCORR | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #VOLSMTY
+  printf "`cat $file | grep VOLSMTY | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #MUTINF
+  printf "`cat $file | grep MUTINF | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #MAHLNBS
+  printf "`cat $file | grep MAHLNBS | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #AVGDIST
+  printf "`cat $file | grep AVGDIST | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #HDRFDST
+  printf "`cat $file| grep HDRFDST | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #VARINFO
+  printf "`cat $file | grep VARINFO | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #GCOERR
+  printf "`cat $file | grep GCOERR | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #PROBDST
+  printf "`cat $file | grep PROBDST | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #SNSVTY
+  printf "`cat $file | grep SNSVTY | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #SPCFTY
+  printf "`cat $file | grep SPCFTY | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #PRCISON
+  printf "`cat $file | grep PRCISON | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #FMEASR
+  printf "`cat $file | grep FMEASR | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #ACURCY
+  printf "`cat $file | grep ACURCY | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  #FALLOUT
+  printf "`cat $file | grep FALLOUT | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  # TP
+  printf "`cat $file| grep TP | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  # FP
+  printf "`cat $file| grep FP | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  # TN
+  printf "`cat $file| grep TN | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  # FN
+  printf "`cat $file| grep FN | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  # REFVOL
+  printf "`cat $file| grep REFVOL | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  # SEGVOL
+  printf "`cat $file| grep SEGVOL | awk '{print $3}'`" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "," >> $(dirname ${LISTFILES})/$OUTPUTNAME
+  printf "\n" >> $(dirname ${LISTFILES})/$OUTPUTNAME
+done
